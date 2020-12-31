@@ -1,0 +1,28 @@
+
+{% extends 'navv.html' %}
+{% block title %}
+login
+{% endblock %}
+
+{% block body %}
+<form action="newans" method="post" class="form-group" >
+    {% csrf_token %}
+    <h2>Add Question Form</h2>
+     <div>
+    {% for message in messages %}
+
+    <h6>* {{message}}</h6>
+    {% endfor %}
+</div>
+
+    <div class="inputBox" >
+        <h5 class="form-group" > *Enter  Answer</h5>
+        <textarea name="desc" cols="40" rows="5"></textarea>
+    </div>
+    <br>
+
+    <div>
+        <input type="submit" value="Add Question">
+    </div>
+</form>
+{% endblock %}

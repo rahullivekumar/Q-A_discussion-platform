@@ -1,0 +1,46 @@
+{% extends 'navv.html' %}
+{% block title %}
+login
+{% endblock %}
+
+{% block body %}
+<hr>
+<div style="padding-left: 40%">
+   <h3> Search results for :: {{ ser }} </h3>
+</div>
+<hr>
+{% if not ques.exists %}
+    <h3 style="padding-left: 40%">No result found</h3>
+
+{% else %}
+
+<table class="table">
+<thead class="thead-dark">
+    <th>Title</th>
+    <th>Tags</th>
+    <th>Description</th>
+    <th>Action</th>
+</thead>
+{% for que in ques %}
+    <tr style="cursor: pointer" onclick="location.href='{% url 'viewcount' qid=que.id %}'">
+        <td>{{ que.title }}</td>
+        <td>{{ que.tags }}</td>
+        <td>{{ que.description }}</td>
+        <td>
+        {% if user.id == que.user_id %}
+        <a href={% url 'delques' qid=que.id %}> Delete</a>
+        <a href={% url 'editques' qid=que.id %}> Edit</a>
+        {% else %}
+            NA
+        {% endif %}
+        </td>
+    <br>
+    </tr>
+
+
+
+{% endfor %}
+</table>
+{% endif %}
+
+{% endblock %}

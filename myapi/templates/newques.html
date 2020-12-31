@@ -1,0 +1,38 @@
+{% extends 'navv.html' %}
+{% block title %}
+login
+{% endblock %}
+
+{% block body %}
+<form action="newques" method="post" class="form-group" >
+    {% csrf_token %}
+    <hr>
+    <h2 style="padding-left: 40%">Add Question Form</h2>
+    <hr>
+     <div>
+    {% for message in messages %}
+
+    <h6>* {{message}}</h6>
+    {% endfor %}
+</div>
+
+    <div class="inputBox" >
+        <h5  > *Enter  Title</h5>
+        <input class="form-control"type="text" name="title" placeholder="title" class="w3-input">
+    </div>
+    <div class="inputBox" >
+        <h5  > Enter  Tags</h5>
+        <input class="form-control" type="text" name="tags" placeholder="tags" class="w3-input">
+    </div>
+    <div class="inputBox" >
+        <h5  > *Enter  Description</h5>
+        <textarea class="form-control" name="desc" cols="40" rows="5"></textarea>
+    </div>
+    <br>
+
+    <div>
+        <input type="submit" value="Add Question">
+    </div>
+</form>
+{% endblock %}
+

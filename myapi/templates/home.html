@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>home</title>
+</head>
+<body>
+
+<nav  class="navbar navbar-expand-lg navbar-light bg-light">
+{#  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">#}
+{#    <span class="navbar-toggler-icon"></span>#}
+{#  </button>#}
+{#  <a class="navbar-brand" href="#">Navbar</a>#}
+  <a class="navbar-brand" href={% url 'home' %}>Home</a>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+{#        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>#}
+          {% if user.is_authenticated %}
+    <a class="nav-link" >{{ user.username }}</a>
+    {% else %}
+    <a class="nav-link" href={% url 'login' %}>Login</a>
+{% endif %}
+      </li>
+      <li class="nav-item">
+       {% if user.is_authenticated %}
+    <a class="nav-link" href={% url 'logout' %}>Logout</a>
+    {% else %}
+    <a class="nav-link" href={% url 'signup' %}>Sign Up</a>
+{% endif %}
+      </li>
+      <li class="nav-item">
+        {% if user.is_authenticated %}
+    <a class="nav-link" href={% url 'newques' %}>Add New Question</a>
+{% endif %}
+      </li>
+    </ul>
+    <form action="search"  method="post" class="form-inline my-2 my-lg-0">
+        {% csrf_token %}
+      <input class="form-control mr-sm-2" type="text" name="searchbox" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+
+
+{#<form action="search" method="post">#}
+{#    {% csrf_token %}#}
+{#    <input type="text" name="searchbox" placeholder="searchbox"><br>#}
+{#    <input type="submit"  value="Submit">#}
+{#</form>#}
+<br>
+<hr>
+    <h3 style="padding-left: 39%"> Q&A / DISCUSSION PLATFORM </h3>
+<hr>
+<table class="table">
+<thead class="thead-dark">
+    <th>Title</th>
+    <th>Tags</th>
+    <th>Description</th>
+{#    <th>Created Date</th>#}
+    <th>Views</th>
+    <th>Action</th>
+</thead>
+
+{% for ques in questions_datas %}
+    <tr style="cursor: pointer" onclick="location.href='{% url 'viewcount' qid=ques.id %}'">
+    <td> {{ ques.title }}</td>
+    <td> {{ ques.tags }}</td>
+{#    <td><b>{{ ques.user_id }}</b> </td>#}
+{#    <td><b>{{ ques.id }}</b></td>#}
+{#    <td> USERID {{ user.id }}</td>#}
+
+    <td>{{ ques.description }}</td>
+{#    <td><a href={% url 'ans' qid=ques.id %}>Answers</a></td>#}
+{#    <td> {{ ques.creation_time }}</td>#}
+    <td> {{ ques.count_view }}</td>
+    <td>
+    {% if user.id == ques.user_id %}
+{#        <a href={% url 'editques' qid=ques.id %} Edit </a>#}
+{#            <a href={% url 'editques' qid=ques.id %} Edit </a>#}
+        <a href={% url 'delques' qid=ques.id %}> Delete</a>
+        <a href={% url 'editques' qid=ques.id %}> Edit</a>
+        {% else %}
+            NA
+    {% endif %}
+    </td>
+
+    </tr>
+{% endfor %}
+
+</table>
+
+{% if questions_datas.has_other_pages %}
+  <ul style="padding-left: 50% " class="pagination">
+    {% if questions_datas.has_previous %}
+      <li><a href="?page={{ questions_datas.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in questions_datas.paginator.page_range %}
+      {% if users.number == i %}
+        <li class="active "><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li ><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if questions_datas.has_next %}
+      <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled "><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+{% extends 'navv.html' %}
+{% block title %}
+login
+{% endblock %}
+
+{% block body %}
+
+
+    <h5 style="padding-left: 45%">Question </h5>
+    <hr>
+
+        <div>
+             <h6> Ques Title -> {{ ques.title }} </h6>
+             <h6> Ques Tags -> {{ ques.tags }} </h6>
+            <h6> Ques Description -> {{ ques.description }} </h6>
+
+        </div>
+
+
+    {% if user.is_authenticated %}
+    <form action="newans/{{ ques.id }}" method="post"  class="form-group">
+    {% csrf_token %}
+         <div>
+
+</div>
+    <hr>
+        {% for message in messages %}
+    <h7 style="padding-left: 50%" >* {{message}}</h7>
+    {% endfor %}
+    <div class="inputBox" >
+        <h5  > *Enter your Answer</h5>
+        <textarea  class="form-control" name="desc" cols="100" rows="3"></textarea>
+    </div>
+    <br>
+    <div>
+        <input type="submit" value="Add Answer">
+    </div>
+</form>
+
+ {% endif %}
+
+<hr>
+    <h5 style="padding-left: 45%"> Answers</h5>
+<hr>
+{% if not answers.exists %}
+    <h3 style="padding-left: 40%">No result found</h3>
+    {% else %}
+    <table class="table">
+<thead class="thead-dark">
+
+    <th>Answers Description</th>
+    <th>Action</th>
+</thead>
+
+
+    {% for answer in answers %}
+        <tr>
+            <td>{{ answer.desc }}</td>
+        <td>
+        {% if user.id == answer.user_id %}
+            <a href={% url 'editans' aid=answer.aid %}>Edit</a>
+            <a href={% url 'delans' aid=answer.aid %}>Delete</a>
+            {% else %}
+                NA
+         {% endif %}
+        </td>
+        </tr>
+    {% endfor %}
+
+    </table>
+{% endif %}
+{% endblock %}
+

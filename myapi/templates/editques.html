@@ -1,0 +1,41 @@
+{% extends 'navv.html' %}
+{% block title %}
+login
+{% endblock %}
+
+{% block body %}
+
+<form action="/updateques/{{ ques.id }}" method="post" class="form-group" >
+    {% csrf_token %}
+<hr>
+    <h2 style="padding-left: 40%">Update Question Form</h2>
+<hr>
+     <div>
+    {% for message in messages %}
+
+    <h6>* {{message}}</h6>
+    {% endfor %}
+</div>
+
+
+    <div class="inputBox" >
+        <h5 class="w3-text-white" > *Enter  Title</h5>
+        <input type="text" name="title" placeholder="title" class="form-control" value="{{ ques.title }}">
+    </div>
+    <div class="inputBox" >
+        <h5 class="w3-text-white" > Enter  Tags</h5>
+        <input type="text" name="tags" placeholder="tags" class="form-control" value="{{ ques.tags }}">
+    </div>
+    <div class="inputBox" >
+        <h5 class="w3-text-white" > *Enter  Description</h5>
+        <input type="text" name="desc" placeholder="description" class="form-control" value="{{ ques.description }}">
+
+    </div>
+    <br>
+
+    <div>
+        <input class="button" type="submit" value="Update Question">
+    </div>
+</form>
+{% endblock %}
+

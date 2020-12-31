@@ -1,0 +1,30 @@
+
+{% extends 'navv.html' %}
+{% block title %}
+login
+{% endblock %}
+
+{% block body %}
+<hr>
+<h2>Login Form </h2>
+    <hr>
+<form action="login" method="post" class="form-group" >
+    {% csrf_token %}
+    <div class="form-group">
+    *Enter Email:  <input style="width: 30%" type="email" name="email" placeholder="email"  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <div class="form-group">
+    *Enter Password: <input style="width: 30%" type="password" name="password" placeholder="Password" class="form-control" id="exampleInputPassword1"></div>
+
+    <input type="submit"  value="Login">
+</form>
+
+<div>
+    {% for message in messages %}
+    <h5>{{message}}</h5>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+
